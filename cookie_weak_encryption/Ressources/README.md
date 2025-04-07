@@ -19,3 +19,7 @@ We only need to create a hash of ``true`` and change the cookie value and reload
 
 # Patch
 
+1. Replace the current cookie-based admin check with server-side sessions
+2. Add proper authentication logic before granting admin privileges
+3. Add HTTP security headers to your server configuration
+4. Ensure all sessions are properly expired after logout or inactivity
