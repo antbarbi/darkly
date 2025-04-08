@@ -1,9 +1,29 @@
-# Tools
-
-- [Hash analyzer](https://www.tunnelsup.com/hash-analyzer/#google_vignette)
-- [Hash lookup table](https://crackstation.net/)
-
 # Exploit
+
+## Basic Mechanism
+
+This vulnerability exploits an unsanitized search parameter in an image search feature:
+
+1. The web application has a search feature for images
+1. User input is directly incorporated into SQL queries without proper sanitization
+1. An attacker can inject malicious SQL commands after legitimate input
+1. The database executes these commands as if they were part of the original query
+1. This allows the attacker to:
+    - Extract database schema information
+    - Access sensitive data
+    - Potentially modify or delete data
+
+## What can this do?
+
+SQL injection vulnerabilities can have severe consequences:
+- Bypass authentication
+- Access sensitive data (user credentials, personal information)
+- Extract database structure and contents
+- Modify or delete data in the database
+- Execute administrative operations on the database
+- In some cases, gain control over the underlying server
+
+## What we did
 
 We first try some random inputs in `http://localhost:8080/?page=member` and we notice that we get sql error messages.
 Then we have to follow these steps:
@@ -18,4 +38,10 @@ Then we have to follow these steps:
 
 # Patch
 
-Prepare the input and sanitize the query
+- Use Parameterized Queries/Prepared Statements: Never concatenate user input directly into SQL
+- Input Validation: Validate that inputs match expected formats (numbers, dates, etc.)
+- ORM (Object-Relational Mapping): Use frameworks that handle SQL securely
+- Least Privilege: Run database connections with minimal required permissions
+- Web Application Firewall: Add an extra layer to filter malicious patterns
+- Escape Special Characters: If parameterized queries aren't possible, escape inputs
+- Error Handling: Don't expose SQL errors to users
